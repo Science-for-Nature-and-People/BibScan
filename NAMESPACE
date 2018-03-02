@@ -3,3 +3,4 @@
 export(elsevier_pdf_download)
 export(is_binary)
 export(title_to_doi)
+export(article_pdf_download)
