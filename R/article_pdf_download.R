@@ -44,7 +44,7 @@ dir.create(nopdf_output_dir, showWarnings = FALSE)
 # Read .bib files
 ## Combine all the bib files. The user needs only add the file to the directory full of bib files
 filepath_list <- as.list(file.path(infilepath, dir(infilepath)))
-file_list <- convert2df(do.call(readFiles, filepath_list))
+file_list <- convert2df(do.call(readFiles, filepath_list), dbsource = "isi", format = "bibtex")
 
 if(is.null(match) == F){
   # Read sorted list from Colandr
