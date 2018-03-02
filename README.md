@@ -1,6 +1,6 @@
-# Project Title
+# BibScan
 
-BibScan: an R package to batch download PDFs from a .bib file
+An R package to batch download PDFs from a .bib file
 
 ## Installing
 
