@@ -10,7 +10,6 @@
 #' elsevier_pdf_download('https://api.elsevier.com/content/article/PII:0167198795004585?httpAccept=text/xml','/Users/timothy/Documents/soilc-text_mapping/data')
 
 elsevier_pdf_download <- function(elsevier_xml_link, filepath) {
-  if (!'xml2' %in% installed.packages()) install.packages("xml2")
   library(xml2)
 
   # getting science direct link from elsevier xml contents

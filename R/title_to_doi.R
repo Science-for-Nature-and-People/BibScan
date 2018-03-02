@@ -11,9 +11,6 @@
 #' title_to_doi()
 
 title_to_doi <- function(papers,bib.dir){
-  if (!'bibliometrix' %in% installed.packages()) install.packages("bibliometrix")
-  if (!'tidyverse' %in% installed.packages()) install.packages("tidyverse")
-
   require(bibliometrix)
   require(tidyverse)
 

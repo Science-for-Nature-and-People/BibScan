@@ -14,10 +14,6 @@ article_pdf_download <- function(infilepath, outfilepath,match=NULL){
 # ===============================
 # PACKAGES
 # ===============================
-if(!'tidyverse' %in% installed.packages()) install.packages("tidyverse")
-if(!'crminer' %in% installed.packages()) install.packages("crminer")
-if(!'bibliometrix' %in% installed.packages()) install.packages("bibliometrix")
-
 library(bibliometrix) # For reading and analyzing ISI data
 library(tidyverse)    # For data manipulation
 library(crminer)      # For getting links from DOI
@@ -25,7 +21,6 @@ library(crminer)      # For getting links from DOI
 # ===============================
 # CONSTANTS
 # ===============================
-
 
 # Create the main output directory
 output_dir <- file.path(outfilepath, 'pdf_output')
