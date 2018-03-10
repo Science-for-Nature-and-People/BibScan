@@ -1,7 +1,7 @@
 Package: BibScan
 Title: Batch Download PDFs From Bib File
 Version: 1.0.0
-Authors@R: person("Stephen", "Wood", email = "stephenawood@gmail.com", role = c("aut", "cre"))
+Authors@R: person("Stephen", "Wood", email = "stephenawood@gmail.com", role = c("aut", "cre")), person("Julien", "Brun", email = "brun@nceas.ucsb.edu", role = c("aut", "cre"))
 Description: The package takes a folder with one or many .bib files, as could be downloaded from a Web of Science search. It uses the DOIs in those files to generate html links to PDFs and batch download those PDFs into a specified folder. It reports which papers did not have a PDF link and which were not able to be downloaded so users can download the remaining files by hand.
 Depends: R (>= 3.4.0)
 License: NA
