@@ -31,6 +31,15 @@ article_pdf_download(indir, outdir)
 
 This will download PDFs from the .bib files in the director indir and save those PDFs in the director outdir.
 
+### Downloading files from Colandr
+
+This tool has been designed to download files from literature reviews in the Colandr tool. The tool reads in a directory of .bib files that were imported into Colandr. The match argument can be used to specify the location of a .csv exported from Colandr. When this is specified, only the titles included in the .csv--which are a subset of the .bib file--will be downloaded. 
+
+```
+article_pdf_download(indir='~/Documents/bibdir', '~/Documents/outdir', '~/Documents/sorted-papers.csv')
+```
+
+
 ## License
 
 This package is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License, version 3, as published by the Free Software Foundation.
