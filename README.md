@@ -41,9 +41,7 @@ A copy of the GNU General Public License, version 3, is available at https://www
 
 ## Authors
 
-* **Stephen Wood** - *Initial work* - [swood-ecology](https://github.com/swood-ecology)
-* **Timothy Nguyen** - *Initial work* - [timothydnguyen](https://github.com/timothydnguyen)
+* **Stephen Wood** - *Creator, Author* - [swood-ecology](https://github.com/swood-ecology)
+* **Julien Brun** - *Author* - [brunj7](https://github.com/brunj7)
+* **Timothy Nguyen** - *Author* - [timothydnguyen](https://github.com/timothydnguyen)
 
-## Acknowledgments
-
-* Thanks to Julien Brun for providing input on code and technical support
