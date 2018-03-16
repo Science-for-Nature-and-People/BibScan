@@ -3,14 +3,14 @@
 #' This function processes and batch downloads files
 #' @param infilepath  A character; path to target folder with input files
 #' @param outfilepath A character; path to folder for export files
-#' @param match       A file that provides titles to match; designed to be output of Colandr
+#' @param colandr       A file that provides titles to match; designed to be output of Colandr
 #' @keywords download
 #' @return
 #' @export files
 #' @examples
 #' article_pdf_download()
 
-article_pdf_download <- function(infilepath, outfilepath,match=NULL){
+article_pdf_download <- function(infilepath, outfilepath,colandr=NULL){
 # ===============================
 # PACKAGES
 # ===============================
@@ -48,14 +48,14 @@ file_list <- convert2df(
                                 readFiles, filepath_list),
                         dbsource = "isi", format = "bibtex")
 
-if(is.null(match) == T){
+if(is.null(colandr) == F){
   # Read sorted list from Colandr
-  papers <- read_csv(file.path(match))
+  papers <- read_csv(file.path(colandr))
 
   # Match titles from Colandr to DOIs from .bib
   matched <- title_to_doi(papers,data_dir)
 }
-if(is.null(match) == F){
+if(is.null(colandr) == T){
   matched <- file_list
 }
 
