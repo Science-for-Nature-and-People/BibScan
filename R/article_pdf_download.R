@@ -17,13 +17,13 @@ article_pdf_download <- function(infilepath, outfilepath,match=NULL){
 library(bibliometrix) # For reading and analyzing ISI data
 library(tidyverse)    # For data manipulation
 library(crminer)      # For getting links from DOI
+library(dplyr)
 
 # ===============================
 # CONSTANTS
 # ===============================
-
 # Create the main output directory
-output_dir <- file.path(outfilepath, 'pdf_output')
+output_dir <- file.path(outfilepath, 'output')
 # Check if pdf_output directory exists
 dir.create(output_dir, showWarnings = FALSE)
 
@@ -40,20 +40,22 @@ dir.create(nopdf_output_dir, showWarnings = FALSE)
 # ===============================
 # MAIN
 # ===============================
-
 # Read .bib files
 ## Combine all the bib files. The user needs only add the file to the directory full of bib files
 filepath_list <- as.list(file.path(infilepath, dir(infilepath)))
-file_list <- convert2df(do.call(readFiles, filepath_list), dbsource = "isi", format = "bibtex")
+file_list <- convert2df(
+                        do.call(
+                                readFiles, filepath_list),
+                        dbsource = "isi", format = "bibtex")
 
-if(is.null(match) == F){
+if(is.null(match) == T){
   # Read sorted list from Colandr
   papers <- read_csv(file.path(match))
 
   # Match titles from Colandr to DOIs from .bib
   matched <- title_to_doi(papers,data_dir)
 }
-else if (is.null(match) == T){
+if(is.null(match) == F){
   matched <- file_list
 }
 
@@ -184,14 +186,17 @@ message(sprintf("Over the %i acquired links, %i PDFs were succesfully downloaded
 # Extract the files info that were not PDFs
 non_pdf_paths <- unique(my_df$path[my_df$downloaded & !my_df$is_pdf]) # For investigative purposes, here are the paths for the non-PDF files (482) that were downloaded
 
-## Move the non-pdf files to a specific directory
-# Create the destination list
-html_paths <- file.path(nopdf_output_dir,
-                        paste0(basename(file_path_sans_ext(non_pdf_paths)),
-                               ".html")
-)
-# Move the files
-file.rename(from = non_pdf_paths, to = html_paths)
+if(length(non_pdf_paths >0 )){
+  ## Move the non-pdf files to a specific directory
+  # Create the destination list
+  html_paths <- file.path(
+    nopdf_output_dir,
+    paste0(basename(file_path_sans_ext(non_pdf_paths)),
+           ".html")
+  )
+  # Move the files
+  file.rename(from = non_pdf_paths, to = html_paths)
+}
 
 ## Fix the double dot before file extension
 pdf_files <- dir(pdf_output_dir, full.names = TRUE)
