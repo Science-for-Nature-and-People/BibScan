@@ -14,7 +14,7 @@ library(devtools)
 To install the package, you can then execute
 
 ```
-install_github("swood-ecology/BibScan")
+install_github("Science-for-Nature-and-People/BibScan")
 ```
 
 ## Downloading files
