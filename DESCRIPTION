@@ -15,4 +15,5 @@ RoxygenNote: 6.0.1.9000
 Imports: bibliometrix,
     crminer,
     tidyverse,
-    xml2
+    xml2,
+    rcrossref
