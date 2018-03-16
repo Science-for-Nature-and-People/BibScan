@@ -56,7 +56,7 @@ if(is.null(colandr) == F){
   matched <- title_to_doi(papers,data_dir)
 }
 if(is.null(colandr) == T){
-  matched <- file_list
+    matched <- file_list
 }
 
 ## STEP 1: ORGANIZE LINKS
@@ -106,6 +106,7 @@ my_df <- select(my_df,Name,DOI,links)
 my_df <- my_df[lapply(my_df$links, length) > 0,]
 
 # Elsevier links require a separate download process, so we distinguish them here
+my_df$elsevier <- vector(mode="logical",length=nrow(my_df))
 for (i in 1:length(my_df$links)) {
   if (grepl('elsevier',my_df$links[[i]][[1]])) { # checking for string 'elsevier' in link
     my_df$elsevier[i] <- TRUE
@@ -115,6 +116,7 @@ for (i in 1:length(my_df$links)) {
 }
 
 # Distinguish Wiley links
+my_df$wiley <- vector(mode="logical",length=nrow(my_df))
 for (i in 1:length(my_df$links)) {
   if (grepl('wiley',my_df$links[[i]][[1]])) { # checking for string 'elsevier' in link
     my_df$wiley[i] <- TRUE
@@ -127,7 +129,7 @@ for (i in 1:length(my_df$links)) {
 for (i in 1:dim(my_df)[1]) {
   if (my_df$elsevier[i]) { # if it's from elsevier, we want to get the xml link
     link <- my_df$links[[i]]$xml$xml
-  } else if (my_df$wiley[i]) { # if it's from wiley, get unidentified link
+  } else if (my_df$wiley[i] && is.null(my_df$links[[i]][3]$unspecified)==FALSE) { # if it's from wiley, get unidentified link
     link <- my_df$links[[i]][3]$unspecified
   } else if ('pdf' %in% names(my_df$links[[i]])) { # otherwise, we prefer the 'pdf' link type
     link <- my_df$links[[i]]$pdf$pdf
