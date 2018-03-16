@@ -114,10 +114,21 @@ for (i in 1:length(my_df$links)) {
   }
 }
 
+# Distinguish Wiley links
+for (i in 1:length(my_df$links)) {
+  if (grepl('wiley',my_df$links[[i]][[1]])) { # checking for string 'elsevier' in link
+    my_df$wiley[i] <- TRUE
+  } else {
+    my_df$wiley[i] <- FALSE
+  }
+}
+
 # Simplify list of links into single link for each DOI
 for (i in 1:dim(my_df)[1]) {
   if (my_df$elsevier[i]) { # if it's from elsevier, we want to get the xml link
     link <- my_df$links[[i]]$xml$xml
+  } else if (my_df$wiley[i]) { # if it's from wiley, get unidentified link
+    link <- my_df$links[[i]][3]$unspecified
   } else if ('pdf' %in% names(my_df$links[[i]])) { # otherwise, we prefer the 'pdf' link type
     link <- my_df$links[[i]]$pdf$pdf
   } else if ('unspecified' %in% names(my_df$links[[i]])) { # our last preference is the 'unspecified' link type
