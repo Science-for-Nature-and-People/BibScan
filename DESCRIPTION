@@ -16,4 +16,5 @@ Imports: bibliometrix,
     crminer,
     tidyverse,
     xml2,
-    rcrossref
+    rcrossref,
+    dplyr
