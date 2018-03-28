@@ -3,21 +3,22 @@
 #' This function processes and batch downloads files
 #' @param infilepath  A character; path to target folder with input files
 #' @param outfilepath A character; path to folder for export files
-#' @param colandr       A file that provides titles to match; designed to be output of Colandr
+#' @param colandr     A file that provides titles to match; designed to be output of Colandr
+#' @param cond        Condition that defines sorting of output from Colandr file
 #' @keywords download
 #' @return
 #' @export files
 #' @examples
 #' article_pdf_download()
 
-article_pdf_download <- function(infilepath, outfilepath,colandr=NULL){
+article_pdf_download <- function(infilepath, outfilepath,colandr=NULL,cond="included"){
 # ===============================
 # PACKAGES
 # ===============================
 library(bibliometrix) # For reading and analyzing ISI data
 library(tidyverse)    # For data manipulation
 library(crminer)      # For getting links from DOI
-library(dplyr)
+library(dplyr)        # For manipulating data
 
 # ===============================
 # CONSTANTS
@@ -43,17 +44,17 @@ dir.create(nopdf_output_dir, showWarnings = FALSE)
 # Read .bib files
 ## Combine all the bib files. The user needs only add the file to the directory full of bib files
 filepath_list <- as.list(file.path(infilepath, dir(infilepath)))
-file_list <- convert2df(
-                        do.call(
-                                readFiles, filepath_list),
-                        dbsource = "isi", format = "bibtex")
+file_list <- do.call(readFiles, filepath_list) %>%
+              convert2df(dbsource = "isi", format = "bibtex") %>%
+              as_tibble() %>%
+              select(TI,AU,PY,JI,SO,DI)
 
 if(is.null(colandr) == F){
   # Read sorted list from Colandr
   papers <- read_csv(file.path(colandr))
 
   # Match titles from Colandr to DOIs from .bib
-  matched <- title_to_doi(papers,data_dir)
+  matched <- title_to_doi(papers,file_list,cond)
 }
 if(is.null(colandr) == T){
     matched <- file_list
@@ -115,22 +116,22 @@ for (i in 1:length(my_df$links)) {
   }
 }
 
-# Distinguish Wiley links
-my_df$wiley <- vector(mode="logical",length=nrow(my_df))
-for (i in 1:length(my_df$links)) {
-  if (grepl('wiley',my_df$links[[i]][[1]])) { # checking for string 'elsevier' in link
-    my_df$wiley[i] <- TRUE
-  } else {
-    my_df$wiley[i] <- FALSE
-  }
-}
+# # Distinguish Wiley links
+# my_df$wiley <- vector(mode="logical",length=nrow(my_df))
+# for (i in 1:length(my_df$links)) {
+#   if (grepl('wiley',my_df$links[[i]][[1]])) { # checking for string 'elsevier' in link
+#     my_df$wiley[i] <- TRUE
+#   } else {
+#     my_df$wiley[i] <- FALSE
+#   }
+# }
 
 # Simplify list of links into single link for each DOI
 for (i in 1:dim(my_df)[1]) {
   if (my_df$elsevier[i]) { # if it's from elsevier, we want to get the xml link
     link <- my_df$links[[i]]$xml$xml
-  } else if (my_df$wiley[i] && is.null(my_df$links[[i]][3]$unspecified)==FALSE) { # if it's from wiley, get unidentified link
-    link <- my_df$links[[i]][3]$unspecified
+  } else if (sum(grepl('onlinelibrary.wiley',my_df$links[[i]]))>0) { # if it's from wiley, only get something with the onlinelibrary url
+    link <- my_df$links[[i]][which(grepl('onlinelibrary.wiley',my_df$links[[i]]))][[1]]
   } else if ('pdf' %in% names(my_df$links[[i]])) { # otherwise, we prefer the 'pdf' link type
     link <- my_df$links[[i]]$pdf$pdf
   } else if ('unspecified' %in% names(my_df$links[[i]])) { # our last preference is the 'unspecified' link type
