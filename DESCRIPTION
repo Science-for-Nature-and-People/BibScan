@@ -18,3 +18,5 @@ Imports: bibliometrix,
     xml2,
     rcrossref,
     dplyr
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
