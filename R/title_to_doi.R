@@ -3,15 +3,15 @@
 #' This function matches titles exported from Colandr to .bib files
 #' and exports the associated DOI from Web of Science
 #' @param papers    A .csv exported from Colandr
-#' @param file_list A tibble of .bib files imported to Colandr
-#' @param cond      Condition for sorting papers
+#' @param bib.dir   A tibble of .bib files imported to Colandr
+#' @param condition Condition for sorting papers
 #' @keywords Colandr
 #' @return A data frame of titles, journals, authors, and DOIs in the .bib format
 #' @export
 #' @examples
 #' title_to_doi()
 
-title_to_doi <- function(papers,bib.dir,condition){
+title_to_doi <- function(papers,file_list,condition){
   require(bibliometrix)
   require(tidyverse)
 
