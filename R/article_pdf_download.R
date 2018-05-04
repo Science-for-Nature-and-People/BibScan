@@ -182,7 +182,7 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
 
   # output information regarding the download processs to csv
   summary_path <- file.path(output_dir, 'summary.csv')
-  write.csv(select(my_df, -links), file = summary_path, row.names = F)
+  write.csv(dplyr::select(my_df, -links), file = summary_path, row.names = F)
 
   message('\n Details of the PDF retrieval process have been stored in ', summary_path, '\n')
 

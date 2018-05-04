@@ -20,4 +20,3 @@ This function checks if a file is binary
 \examples{
 is_binary()
 }
-\keyword{binary}

@@ -4,12 +4,14 @@
 \alias{title_to_doi}
 \title{Title-DOI Matcher}
 \usage{
-title_to_doi(papers, bib.dir)
+title_to_doi(papers, file_list, condition)
 }
 \arguments{
 \item{papers}{A .csv exported from Colandr}
 
-\item{bib.dir}{A directory containing all .bib files imported to Colandr}
+\item{condition}{Condition for sorting papers}
+
+\item{bib.dir}{A tibble of .bib files imported to Colandr}
 }
 \value{
 A data frame of titles, journals, authors, and DOIs in the .bib format

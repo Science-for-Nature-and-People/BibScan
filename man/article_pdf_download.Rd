@@ -2,21 +2,26 @@
 % Please edit documentation in R/article_pdf_download.R
 \name{article_pdf_download}
 \alias{article_pdf_download}
-\title{Batch download}
+\title{Batch download articles from bibtex files}
 \usage{
-article_pdf_download(infilepath, outfilepath, match = NULL)
+article_pdf_download(infilepath, outfilepath = infilepath, colandr = NULL,
+  cond = "included")
 }
 \arguments{
 \item{infilepath}{A character; path to target folder with input files}
 
 \item{outfilepath}{A character; path to folder for export files}
 
-\item{match}{A file that provides titles to match; designed to be output of Colandr}
+\item{colandr}{A file that provides titles to match; designed to be output of Colandr}
+
+\item{cond}{Condition that defines sorting of output from Colandr file}
+}
+\value{
+data frame containing dowload information
 }
 \description{
-This function processes and batch downloads files
+Batch download articles from bibtex files
 }
 \examples{
-article_pdf_download()
+article_pdf_download(infilepath = "/data/isi_searches/", outfilepath = "data")
 }
-\keyword{download}

@@ -2,7 +2,6 @@
 
 export(article_pdf_download)
 export(bibfile_reader)
-export(hello)
-export(is_binary)
-export(title_to_doi)
+export(elsevier_pdf_download)
+export(elsevier_tagger)
 importFrom(magrittr,"%>%")
