@@ -7,17 +7,15 @@
 #' @param condition Condition for sorting papers
 #' @keywords Colandr
 #' @return A data frame of titles, journals, authors, and DOIs in the .bib format
-#' @export
-#' @examples
-#' title_to_doi()
-
+#'
+#' @examples title_to_doi()
 title_to_doi <- function(papers,file_list,condition){
-  require(bibliometrix)
-  require(tidyverse)
+  # require(bibliometrix)
+  # require(tidyverse)
 
   # filter list of papers by those that are included
   # select only the relevant columns
-  papers = filter(papers, citation_screening_status == condition) %>%
+  papers = dplyr::filter(papers, citation_screening_status == condition) %>%
     select(citation_title,citation_authors,citation_journal_name)
 
   # read in bib files
@@ -35,7 +33,7 @@ title_to_doi <- function(papers,file_list,condition){
   # remove duplications
   # return tibble from the function
   references %>%
-    filter(TI %in% papers$citation_title) %>%
+    dplyr::filter(TI %in% papers$citation_title) %>%
     unique() %>%
     return()
 }
