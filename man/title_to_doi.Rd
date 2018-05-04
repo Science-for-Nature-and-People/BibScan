@@ -7,7 +7,7 @@
 title_to_doi(papers, file_list, condition)
 }
 \arguments{
-\item{papers}{A .csv exported from Colandr}
+\item{papers}{A csv file exported from Colandr}
 
 \item{condition}{Condition for sorting papers}
 

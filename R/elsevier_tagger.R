@@ -1,12 +1,12 @@
 #' Tag papers from the Elsevier publisher
 #'
-#' @param df_doi
-#' @param col_links
+#' @param df_doi (data frame) DOI links
+#' @param col_links (character) column name countaining the links
 #'
 #' @return dataframe
 #' @export
 #'
-#' @examples elsevier_tagger(my_df, "links")
+#' @examples \dontrun{elsevier_tagger(my_df, "links")}
 elsevier_tagger <- function(df_doi, col_links) {
   df_doi$elsevier <- as.logical(NA)
   # remove the entry without links

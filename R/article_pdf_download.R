@@ -2,14 +2,14 @@
 #'
 #' @importFrom magrittr %>%
 #'
-#' @param infilepath  A character; path to target folder with input files
-#' @param outfilepath A character; path to folder for export files
-#' @param colandr     A file that provides titles to match; designed to be output of Colandr
-#' @param cond        Condition that defines sorting of output from Colandr file
+#' @param infilepath  (character) path to target folder with input files
+#' @param outfilepath (character) path to folder for export files
+#' @param colandr     A file (character) that provides titles to match; designed to be output of Colandr
+#' @param cond        Condition (logical) that defines sorting of output from Colandr file
 #'
 #' @return data frame containing dowload information
 #' @export
-#' @examples article_pdf_download(infilepath = "/data/isi_searches/", outfilepath = "data")
+#' @examples \dontrun{ article_pdf_download(infilepath = "/data/isi_searches", outfilepath = "data")}
 article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=NULL, cond="included"){
   # ===============================
   # CONSTANTS
@@ -42,6 +42,7 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
 
     # Match titles from Colandr to DOIs from .bib
     matched <- title_to_doi(papers,df_citations,cond)
+
   }else{
     matched <- df_citations
   }
@@ -93,7 +94,6 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
   my_df <- my_df[lapply(my_df$links, length) > 0,]
 
   # Elsevier links require a separate download process, so we distinguish them here
-
   my_df <- elsevier_tagger(my_df, "links")
 
   ## STEP 2: DOWNLOAD PDFS FROM LINKS
@@ -163,7 +163,7 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
   # Extract the files info that were not PDFs
   non_pdf_paths <- unique(my_df$downloaded_file[my_df$downloaded & !my_df$is_pdf]) # For investigative purposes, here are the paths for the non-PDF files (482) that were downloaded
 
-  if(length(non_pdf_paths >0 )){
+  if(length(non_pdf_paths > 0)){
     ## Move the non-pdf files to a specific directory
     # Create the destination list
     html_paths <- file.path(

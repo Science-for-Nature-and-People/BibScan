@@ -8,13 +8,13 @@ article_pdf_download(infilepath, outfilepath = infilepath, colandr = NULL,
   cond = "included")
 }
 \arguments{
-\item{infilepath}{A character; path to target folder with input files}
+\item{infilepath}{(character) path to target folder with input files}
 
-\item{outfilepath}{A character; path to folder for export files}
+\item{outfilepath}{(character) path to folder for export files}
 
-\item{colandr}{A file that provides titles to match; designed to be output of Colandr}
+\item{colandr}{A file (character) that provides titles to match; designed to be output of Colandr}
 
-\item{cond}{Condition that defines sorting of output from Colandr file}
+\item{cond}{Condition (logical) that defines sorting of output from Colandr file}
 }
 \value{
 data frame containing dowload information
@@ -23,5 +23,5 @@ data frame containing dowload information
 Batch download articles from bibtex files
 }
 \examples{
-article_pdf_download(infilepath = "/data/isi_searches/", outfilepath = "data")
+article_pdf_download(infilepath = "/data/isi_searches", outfilepath = "data")
 }

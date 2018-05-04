@@ -2,7 +2,7 @@
 #'
 #' This function matches titles exported from Colandr to .bib files
 #' and exports the associated DOI from Web of Science
-#' @param papers    A .csv exported from Colandr
+#' @param papers    A csv file exported from Colandr
 #' @param bib.dir   A tibble of .bib files imported to Colandr
 #' @param condition Condition for sorting papers
 #' @keywords Colandr
