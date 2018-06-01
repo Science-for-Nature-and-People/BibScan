@@ -104,7 +104,9 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
 
   ## Download the PDFs
   # Set the cache path
-  crminer::crm_cache$cache_path_set(path = pdf_output_dir, type = "function() getwd()")
+  # crminer::crm_cache$cache_path_set(path = pdf_output_dir, type = "function() getwd()")
+  crminer::crm_cache$cache_path_set(path = "soil_pdfs", type = "function() '/Users/brun'", prefix = "Desktop")
+
   # Clear the cache
   crminer::crm_cache$delete_all()
   nb_pdfs <- length(crminer::crm_cache$list())
