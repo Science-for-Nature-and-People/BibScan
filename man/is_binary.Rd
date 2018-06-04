@@ -15,9 +15,11 @@ is_binary(filepath, max = 1000)
 A boolean; TRUE if file is binary and FALSE otherwise
 }
 \description{
+Adatapted from: https://stackoverflow.com/questions/16350164/native-method-in-r-to-test-if-file-is-ascii
+}
+\details{
 This function checks if a file is binary
 }
 \examples{
-is_binary()
+\dontrun{is_binary()}
 }
-\keyword{binary}

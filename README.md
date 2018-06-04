@@ -17,6 +17,13 @@ To install the package, you can then execute
 install_github("Science-for-Nature-and-People/BibScan")
 ```
 
+## Getting your token with Publishers
+
+Before being able to use BibScan, you will have to get an authtetification token with CrossRef to be able to access content from Willey and Elsevier. Here are the intructions from `crminer` package on how to do this: https://github.com/ropensci/crminer#authentication
+
+We recommend you to add your token to your R environement by editing your `.Renviron` file adding the variable name: `CROSSREF_TDM=` followed by your token.
+
+
 ## Downloading files
 
 To download files you need to be on a server that has a license to download from journal websites. The success rate of this package depends on the institutional access of the institution whose server you are on.

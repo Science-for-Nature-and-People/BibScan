@@ -6,8 +6,9 @@
 #' @keywords elsevier
 #' @return Nothing. Download PDFs to HD
 #' @export
-#' @examples
+#' @examples \dontrun{
 #' elsevier_pdf_download('https://api.elsevier.com/content/article/PII:0167198795004585?httpAccept=text/xml','/Users/timothy/Documents/soilc-text_mapping/data')
+#' }
 
 elsevier_pdf_download <- function(elsevier_xml_link, filepath) {
   library(xml2)
