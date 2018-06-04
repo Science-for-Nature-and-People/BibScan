@@ -146,7 +146,7 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
   # Check if pdf_output directory exists
   dir.create(output_dir, showWarnings = FALSE)
   # Check if pdf_output_dir directory exists
-  dir.create(pdf_output_dir, showWarnings = FALSE)
+  # dir.create(pdf_output_dir, showWarnings = FALSE)
   # Check if pdf_output_dir directory exists
   dir.create(nopdf_output_dir, showWarnings = FALSE)
 
