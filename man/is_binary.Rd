@@ -21,5 +21,5 @@ Adatapted from: https://stackoverflow.com/questions/16350164/native-method-in-r-
 This function checks if a file is binary
 }
 \examples{
-is_binary()
+\dontrun{is_binary()}
 }

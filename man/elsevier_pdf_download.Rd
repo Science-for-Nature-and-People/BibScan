@@ -18,6 +18,8 @@ Nothing. Download PDFs to HD
 This function uses webscraping techniques to download a PDF file from elsevier's server
 }
 \examples{
+\dontrun{
 elsevier_pdf_download('https://api.elsevier.com/content/article/PII:0167198795004585?httpAccept=text/xml','/Users/timothy/Documents/soilc-text_mapping/data')
+}
 }
 \keyword{elsevier}

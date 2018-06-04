@@ -18,5 +18,5 @@ dataframe
 Tag papers from the Elsevier publisher
 }
 \examples{
-elsevier_tagger(my_df, "links")
+\dontrun{elsevier_tagger(my_df, "links")}
 }

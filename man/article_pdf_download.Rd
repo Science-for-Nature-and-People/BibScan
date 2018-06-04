@@ -23,5 +23,5 @@ data frame containing dowload information
 Batch download articles from bibtex files
 }
 \examples{
-article_pdf_download(infilepath = "/data/isi_searches", outfilepath = "data")
+\dontrun{ article_pdf_download(infilepath = "/data/isi_searches", outfilepath = "data")}
 }

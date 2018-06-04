@@ -1,6 +1,5 @@
 #' Batch download articles from bibtex files
 #'
-#' @importFrom magrittr %>%
 #'
 #' @param infilepath  (character) path to target folder with input files
 #' @param outfilepath (character) path to folder for export files
@@ -8,26 +7,25 @@
 #' @param cond        Condition (logical) that defines sorting of output from Colandr file
 #'
 #' @return data frame containing dowload information
+#'
+#' @importFrom magrittr %>%
+#'
 #' @export
 #' @examples \dontrun{ article_pdf_download(infilepath = "/data/isi_searches", outfilepath = "data")}
+
 article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=NULL, cond="included"){
   # ===============================
   # CONSTANTS
   # ===============================
   # Create the main output directory
   output_dir <- file.path(outfilepath, 'output')
-  # Check if pdf_output directory exists
-  dir.create(output_dir, showWarnings = FALSE)
 
   # PDF subdirectory
   pdf_output_dir <- file.path(output_dir, 'pdfs')
-  # Check if pdf_output_dir directory exists
-  dir.create(pdf_output_dir, showWarnings = FALSE)
 
   # Non-PDF files subdirectory
   nopdf_output_dir <- file.path(output_dir, 'non-pdfs')
-  # Check if pdf_output_dir directory exists
-  dir.create(nopdf_output_dir, showWarnings = FALSE)
+
 
   # ===============================
   # MAIN
@@ -99,23 +97,25 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
   ## STEP 2: DOWNLOAD PDFS FROM LINKS
   message('===============================\nDOWNLOADING PDFS FROM LINKS\n===============================')
 
-  #initialize the column to store the PDF filename
-  my_df$downloaded_file <- as.character(NA)
-
   ## Download the PDFs
   # Set the cache path
-  # crminer::crm_cache$cache_path_set(path = pdf_output_dir, type = "function() getwd()")
-  crminer::crm_cache$cache_path_set(path = "soil_pdfs", type = "function() '/Users/brun'", prefix = "Desktop")
+  crminer::crm_cache$cache_path_set(path = "", type = "function() dirname(outfilepath)", prefix = basename(outfilepath))
+  # crminer::crm_cache$cache_path_set(path = "soil_pdfs", type = "function() '/Users/brun'", prefix = "Desktop")
+
+  # initialize the column to store the PDF filename
+  my_df$downloaded_file <- as.character(NA)
 
   # Clear the cache
   crminer::crm_cache$delete_all()
   nb_pdfs <- length(crminer::crm_cache$list())
+  old_cache <- crminer::crm_cache$delete_all()
+
   # Download the PDFs
   for (i in 1:nrow(my_df)) {
     message(sprintf("number of papers downloaded %i",nb_pdfs))
     # my_df$path[i] <- paste0(file.path(pdf_output_dir, my_df$Name[i]), '.pdf')
     tryCatch(crminer::crm_text(my_df$links[[i]], type = "pdf", cache=FALSE, overwrite_unspecified=TRUE),
-             my_df$downloaded_file[i] <- crminer::crm_cache$list()[i],
+             # my_df$downloaded_file[i] <- crminer::crm_cache$list()[i],
              # (url, my_df$path[i], overwrite_unspecified = TRUE),
              error=function(cond) {
                # we don't handle links of type 'html' or 'plain', because they almost never provide pdf download; moreover, we only want xml links from elsevier because we only handle those
@@ -127,11 +127,14 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
              )
     # keep track of the PDF names
     if (length(crminer::crm_cache$list()) > nb_pdfs) {
+      # print(crminer::crm_cache$list())
       nb_pdfs <- length(crminer::crm_cache$list())
-      my_df$downloaded_file[i] <- crminer::crm_cache$list()[nb_pdfs]
+      last_paper <- setdiff(crminer::crm_cache$list(), old_cache)
+      my_df$downloaded_file[i] <- last_paper
     } else {
       my_df$downloaded_file[i] <- NA
     }
+    old_cache <- crminer::crm_cache$list()
   }
 
 
@@ -140,10 +143,18 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
   ## STEP 3: POST-PROCESSING
   # distinguish real pdf files from other files (mainly html webpages)
 
+  # Check if pdf_output directory exists
+  dir.create(output_dir, showWarnings = FALSE)
+  # Check if pdf_output_dir directory exists
+  dir.create(pdf_output_dir, showWarnings = FALSE)
+  # Check if pdf_output_dir directory exists
+  dir.create(nopdf_output_dir, showWarnings = FALSE)
+
   my_df$downloaded <- as.logical(NA)
   my_df$is_pdf <- as.logical(NA)
 
   for (i in 1:dim(my_df)[1]) {
+    print(my_df$downloaded_file[i])
     if (file.exists(my_df$downloaded_file[i])) {
       my_df$downloaded[i] <- TRUE
       my_df$is_pdf[i] <- is_binary(my_df$downloaded_file[i])

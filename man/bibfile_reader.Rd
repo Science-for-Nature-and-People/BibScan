@@ -16,5 +16,5 @@ data frame witht eh bibtex file content
 Read DOIs/Metadata from bib files
 }
 \examples{
-bibfile_reader("data/isi_search")
+\dontrun{bibfile_reader("data/isi_search")}
 }

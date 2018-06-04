@@ -7,6 +7,7 @@
 #'
 #' @return data frame witht eh bibtex file content
 #' @examples \dontrun{bibfile_reader("data/isi_search")}
+
 bibfile_reader <- function(isi_dir){
   file_list <- list.files(path = isi_dir, pattern = ".bib", full.names = TRUE)
   if(length(file_list) <= 0){

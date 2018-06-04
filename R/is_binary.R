@@ -9,6 +9,7 @@
 #' @return A boolean; TRUE if file is binary and FALSE otherwise
 #'
 #' @examples \dontrun{is_binary()}
+
 is_binary <- function(filepath, max=1000){
   f <- file(filepath,"rb", raw=TRUE)
   b <- readBin(f, "int", max, size=1, signed=FALSE)
