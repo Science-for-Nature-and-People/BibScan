@@ -18,13 +18,13 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
   # CONSTANTS
   # ===============================
   # Create the main output directory
-  output_dir <- file.path(outfilepath, 'output')
+  dir.create(outfilepath, showWarnings = FALSE)
 
   # PDF subdirectory
-  pdf_output_dir <- file.path(output_dir, 'pdfs')
+  pdf_output_dir <- file.path(outfilepath, 'pdfs')
 
   # Non-PDF files subdirectory
-  nopdf_output_dir <- file.path(output_dir, 'non-pdfs')
+  nopdf_output_dir <- file.path(outfilepath, 'non-pdfs')
 
 
   # ===============================
