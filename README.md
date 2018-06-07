@@ -14,7 +14,7 @@ library(devtools)
 To install the package, you can then execute
 
 ```
-install_github("Science-for-Nature-and-People/BibScan")
+devtools::install_github("Science-for-Nature-and-People/BibScan")
 ```
 
 ## Getting your token with Publishers
