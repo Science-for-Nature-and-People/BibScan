@@ -23,6 +23,7 @@ Imports:
    tibble,
    bibliometrix, 
    crminer,
+   rcrossref,
    xml2,
    rvest,
    jsonlite
