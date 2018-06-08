@@ -99,7 +99,10 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
 
   ## Download the PDFs
   # Set the cache path
-  crminer::crm_cache$cache_path_set(path = "", type = "function() dirname(outfilepath)", prefix = basename(outfilepath))
+  print(outfilepath)
+  full_outpath <<- dirname(outfilepath)
+  print(full_outpath)
+  crm_cache$cache_path_set(path = "", type = "function() full_outpath", prefix=basename(outfilepath))
   # crminer::crm_cache$cache_path_set(path = "soil_pdfs", type = "function() '/Users/brun'", prefix = "Desktop")
 
   # initialize the column to store the PDF filename
@@ -144,7 +147,7 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
   # distinguish real pdf files from other files (mainly html webpages)
 
   # Check if pdf_output directory exists
-  dir.create(output_dir, showWarnings = FALSE)
+  # dir.create(output_dir, showWarnings = FALSE)
   # Check if pdf_output_dir directory exists
   # dir.create(pdf_output_dir, showWarnings = FALSE)
   # Check if pdf_output_dir directory exists
@@ -194,7 +197,7 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
   # file.rename(from = pdf_files , to = pdf_fixed)
 
   # output information regarding the download processs to csv
-  summary_path <- file.path(output_dir, 'summary.csv')
+  summary_path <- file.path(outfilepath, 'summary.csv')
   write.csv(dplyr::select(my_df, -links), file = summary_path, row.names = F)
 
   message('\n Details of the PDF retrieval process have been stored in ', summary_path, '\n')
