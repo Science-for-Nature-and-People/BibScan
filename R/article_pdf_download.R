@@ -99,9 +99,9 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
 
   ## Download the PDFs
   # Set the cache path
-  print(outfilepath)
+  #print(outfilepath)
   full_outpath <<- dirname(outfilepath) #fix to be discussed with the crminer maintainer
-  print(full_outpath)
+  #print(full_outpath)
   crminer::crm_cache$cache_path_set(path = "", type = "function() full_outpath", prefix=basename(outfilepath))
   # crminer::crm_cache$cache_path_set(path = "soil_pdfs", type = "function() '/Users/brun'", prefix = "Desktop")
 
