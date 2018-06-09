@@ -99,10 +99,8 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
 
   ## Download the PDFs
   # Set the cache path
-  print(outfilepath)
   full_outpath <<- dirname(outfilepath)
-  print(full_outpath)
-  crm_cache$cache_path_set(path = "", type = "function() full_outpath", prefix=basename(outfilepath))
+  crminer::crm_cache$cache_path_set(path = "", type = "function() full_outpath", prefix=basename(outfilepath))
   # crminer::crm_cache$cache_path_set(path = "soil_pdfs", type = "function() '/Users/brun'", prefix = "Desktop")
 
   # initialize the column to store the PDF filename
