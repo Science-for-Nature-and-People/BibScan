@@ -6,6 +6,10 @@
 #' @param bib.dir   A tibble of .bib files imported to Colandr
 #' @param condition Condition for sorting papers
 #' @keywords Colandr
+#'
+#' @importFrom magrittr %>%
+#'
+#'
 #' @return A data frame of titles, journals, authors, and DOIs in the .bib format
 #'
 #' @examples title_to_doi()
@@ -16,7 +20,7 @@ title_to_doi <- function(papers,file_list,condition){
   # filter list of papers by those that are included
   # select only the relevant columns
   papers = dplyr::filter(papers, citation_screening_status == condition) %>%
-    select(citation_title,citation_authors,citation_journal_name)
+    dplyr::select(citation_title,citation_authors,citation_journal_name)
 
   # read in bib files
   # select only relevant columns
