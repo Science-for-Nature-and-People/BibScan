@@ -7,7 +7,7 @@ An R package to batch download PDFs from a .bib file
 To install this package from GitHub you first need to install and run the ```devtools``` package.
 
 ```
-install.pacakges("devtools")
+install.packages("devtools")
 library(devtools)
 ```
 
