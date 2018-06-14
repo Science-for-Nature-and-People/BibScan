@@ -8,7 +8,6 @@ To install this package from GitHub you first need to install and run the ```dev
 
 ```
 install.packages("devtools")
-library(devtools)
 ```
 
 To install the package, you can then execute
