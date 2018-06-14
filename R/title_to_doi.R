@@ -13,9 +13,7 @@
 #' @return A data frame of titles, journals, authors, and DOIs in the .bib format
 #'
 #' @examples title_to_doi()
-title_to_doi <- function(papers,file_list,condition){
-  # require(bibliometrix)
-  # require(tidyverse)
+title_to_doi <- function(papers, file_list, condition){
 
   # filter list of papers by those that are included
   # select only the relevant columns
@@ -31,7 +29,7 @@ title_to_doi <- function(papers,file_list,condition){
   references$TI <- tolower(references$TI)
 
   # remove extra spaces in .bib data frame
-  references$TI <- gsub("\\s+", " ", str_trim(references$TI))
+  references$TI <- gsub("\\s+", " ", stringr::str_trim(references$TI))
 
   # merge the two data sets
   # remove duplications
