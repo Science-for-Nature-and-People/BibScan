@@ -21,6 +21,7 @@ Imports:
    purrr,
    readr,
    tibble,
+   stringr,
    bibliometrix, 
    crminer,
    rcrossref,
