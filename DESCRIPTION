@@ -22,9 +22,9 @@ Imports:
    readr,
    tibble,
    stringr,
-   bibliometrix, 
    crminer,
    rcrossref,
+   RefManageR,
    xml2,
    rvest,
    jsonlite
