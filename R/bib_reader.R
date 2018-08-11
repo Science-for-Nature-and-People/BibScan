@@ -33,8 +33,8 @@ bibfile_reader <- function(isi_dir){
   # Match the fields names handling potential order discrepency to rename fields according to web of science tags
   names(biblio_data) <- lut$WoS_tag[match(names(biblio_data), lut$dillon)]
 
-  # remove the curly braces aroung the titles
-  biblio_data$TI <- gsub("\\{|\\}", "", biblio_data$TI)
+  # remove the curly braces around values
+  biblio_data <- as.tibble(map(biblio_data, ~gsub("\\{|\\}", "", .x), biblio_data))
 
   return(biblio_data)
 }

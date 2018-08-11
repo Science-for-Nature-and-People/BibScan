@@ -36,10 +36,9 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, colandr=N
   # Join the DOI to Colandr output (https://www.colandrcommunity.com)
   if(is.null(colandr) == F){
 
-    print("in the condition")
     # Read sorted list from Colandr
     papers <- readr::read_csv(file.path(colandr))
-    print("before title_to_doi call")
+
     # Match titles from Colandr to DOIs from .bib
     matched <- title_to_doi(papers, df_citations, cond)
 

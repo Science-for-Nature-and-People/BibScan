@@ -9,9 +9,9 @@ title_to_doi(papers, file_list, condition)
 \arguments{
 \item{papers}{A csv file exported from Colandr}
 
-\item{condition}{Condition for sorting papers}
+\item{file_list}{A tibble of .bib files imported to Colandr}
 
-\item{bib.dir}{A tibble of .bib files imported to Colandr}
+\item{condition}{Condition for sorting papers}
 }
 \value{
 A data frame of titles, journals, authors, and DOIs in the .bib format
@@ -21,6 +21,9 @@ This function matches titles exported from Colandr to .bib files
 and exports the associated DOI from Web of Science
 }
 \examples{
-title_to_doi()
+\dontrun{
+title_to_doi(papers, df_citations, cond)
+}
+
 }
 \keyword{Colandr}
