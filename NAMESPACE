@@ -2,6 +2,12 @@
 
 export(article_pdf_download)
 export(bibfile_reader)
-export(elsevier_pdf_download)
 export(elsevier_tagger)
+importFrom(dplyr,filter)
+importFrom(dplyr,select)
 importFrom(magrittr,"%>%")
+importFrom(purrr,map)
+importFrom(purrr,map_dfr)
+importFrom(readr,read_csv)
+importFrom(readr,write_csv)
+importFrom(tibble,as_tibble)

@@ -4,17 +4,22 @@
 \alias{bibfile_reader}
 \title{Read DOIs/Metadata from bib files}
 \usage{
-bibfile_reader(isi_dir)
+bibfile_reader(isi_dir, formatting)
 }
 \arguments{
 \item{isi_dir}{(character) Path to target folder with bibtex files}
+
+\item{formatting}{(character) format used by the bibtex files}
 }
 \value{
-data frame witht eh bibtex file content
+data frame with the bibtex file content
 }
 \description{
 Read DOIs/Metadata from bib files
 }
 \examples{
-\dontrun{bibfile_reader("data/isi_search")}
+\dontrun{
+bibfile_reader("data/isi_search")
+}
+
 }

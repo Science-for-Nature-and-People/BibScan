@@ -3,16 +3,21 @@
 #' This function matches titles exported from Colandr to .bib files
 #' and exports the associated DOI from Web of Science
 #' @param papers    A csv file exported from Colandr
-#' @param bib.dir   A tibble of .bib files imported to Colandr
+#' @param file_list   A tibble of .bib files imported to Colandr
 #' @param condition Condition for sorting papers
 #' @keywords Colandr
 #'
 #' @importFrom magrittr %>%
+#' @importFrom dplyr filter select
 #'
 #'
 #' @return A data frame of titles, journals, authors, and DOIs in the .bib format
 #'
-#' @examples title_to_doi()
+#' @examples
+#' \dontrun{
+#' title_to_doi(papers, df_citations, cond)
+#' }
+#'
 title_to_doi <- function(papers, file_list, condition){
 
   # filter list of papers by those that are included
