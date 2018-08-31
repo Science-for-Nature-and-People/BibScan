@@ -4,10 +4,12 @@
 \alias{bibfile_reader}
 \title{Read DOIs/Metadata from bib files}
 \usage{
-bibfile_reader(isi_dir)
+bibfile_reader(isi_dir, formatting)
 }
 \arguments{
 \item{isi_dir}{(character) Path to target folder with bibtex files}
+
+\item{formatting}{(character) format used by the bibtex files}
 }
 \value{
 data frame with the bibtex file content

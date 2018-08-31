@@ -8,6 +8,7 @@
 #' @keywords Colandr
 #'
 #' @importFrom magrittr %>%
+#' @importFrom dplyr filter select
 #'
 #'
 #' @return A data frame of titles, journals, authors, and DOIs in the .bib format
