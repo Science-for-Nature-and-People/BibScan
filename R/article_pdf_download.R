@@ -52,10 +52,9 @@ article_pdf_download <- function(infilepath, bib_format, outfilepath = infilepat
   ## STEP 1: ORGANIZE LINKS
   message('===============================\nORGANIZING LINKS\n===============================')
   # Select attributes of interest and clean the author field
-  my_df <- tibble::tibble(Name = paste(gsub(";.*$", "", matched$AU),matched$PY,matched$SO),
+  my_df <- tibble::tibble(name = paste(gsub(";.*$", "", matched$AU),matched$PY,matched$SO),
+                          titles = matched$TI,
                           DOI = matched$DI)
-
-
 
   # Print percent of papers with DOI
   perc <- suppressWarnings((nrow(dplyr::filter(my_df, !is.na(DOI)))/nrow(my_df)))
@@ -89,12 +88,12 @@ article_pdf_download <- function(infilepath, bib_format, outfilepath = infilepat
   rm(perc)
 
   # Add to report document which reference didn't have URL
-  report <- dplyr::left_join(report, my_df, by = c("Name", "DOI"))
+  report <- dplyr::left_join(report, my_df, by = c("name", "DOI", "titles"))
   report$length <- lapply(report$links, length)
   report$URL_found <- ifelse((report$length > 0), TRUE, FALSE)
-  report <- dplyr::select(report, Name, DOI, DOI_exists, URL_found)
+  report <- dplyr::select(report, name, titles, DOI, DOI_exists, URL_found)
 
-  my_df <- dplyr::select(my_df, Name, DOI, links)
+  my_df <- dplyr::select(my_df, name, titles, DOI, links)
 
   # Remove references with no URL
   my_df <- my_df[lapply(my_df$links, length) > 0, ]
@@ -122,7 +121,7 @@ article_pdf_download <- function(infilepath, bib_format, outfilepath = infilepat
   # Download the PDFs
   for (i in 1:nrow(my_df)) {
     message(sprintf("number of papers downloaded %i",nb_pdfs))
-    # my_df$path[i] <- paste0(file.path(pdf_output_dir, my_df$Name[i]), '.pdf')
+    # my_df$path[i] <- paste0(file.path(pdf_output_dir, my_df$name[i]), '.pdf')
     tryCatch(crminer::crm_text(my_df$links[[i]], type = "pdf", cache=FALSE, overwrite_unspecified=TRUE),
              # my_df$downloaded_file[i] <- crminer::crm_cache$list()[i],
              # (url, my_df$path[i], overwrite_unspecified = TRUE),
@@ -132,7 +131,7 @@ article_pdf_download <- function(infilepath, bib_format, outfilepath = infilepat
                message(sprintf("There was a problem downloading this link %s", my_df$links[[i]]))
                # message(cond)
              },
-             finally = message(sprintf("\nThe reference %s has been processed \n", my_df$Name[[i]]))
+             finally = message(sprintf("\nThe reference %s has been processed \n", my_df$name[[i]]))
              )
     # keep track of the PDF names
     if (length(crminer::crm_cache$list()) > nb_pdfs) {
@@ -172,7 +171,7 @@ article_pdf_download <- function(infilepath, bib_format, outfilepath = infilepat
       # test if the file has been downloaded
       report$downloaded[i] <- TRUE
       # test if the file is binary (assumed to be PDF) or not (html or other)
-      report$is_pdf[i] <- is_binary(report$downloaded_file[i])
+      report$is_pdf[i] <- suppressWarnings(is_binary(report$downloaded_file[i]))
     } else {
       report$downloaded[i] <- FALSE
       report$is_pdf[i] <- FALSE
@@ -205,7 +204,7 @@ article_pdf_download <- function(infilepath, bib_format, outfilepath = infilepat
 
   # output information regarding the download processs to csv
   summary_path <- file.path(outfilepath, 'summary.csv')
-  readr::write_csv(dplyr::select(report, -links), path = summary_path)
+  readr::write_csv(report, path = summary_path)
 
   message('\n Details of the PDF retrieval process have been stored in ', summary_path, '\n')
 
