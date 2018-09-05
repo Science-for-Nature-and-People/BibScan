@@ -4,15 +4,15 @@
 \alias{article_pdf_download}
 \title{Batch download articles from bibtex files}
 \usage{
-article_pdf_download(infilepath, bib_format, outfilepath = infilepath,
-  colandr = NULL, cond = "included")
+article_pdf_download(infilepath, outfilepath = infilepath,
+  bib_format = "soc_bib", colandr = NULL, cond = "included")
 }
 \arguments{
 \item{infilepath}{(character) path to target folder with input files}
 
-\item{bib_format}{(character) format used by the bibtex file}
-
 \item{outfilepath}{(character) path to folder for export files}
+
+\item{bib_format}{(character) format used by the bibtex file}
 
 \item{colandr}{A file (character) that provides titles to match; designed to be output of Colandr}
 
