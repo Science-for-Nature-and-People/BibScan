@@ -2,8 +2,8 @@
 #'
 #'
 #' @param infilepath  (character) path to target folder with input files
-#' @param bib_format  (character) format used by the bibtex file
 #' @param outfilepath (character) path to folder for export files
+#' @param bib_format  (character) format used by the bibtex file
 #' @param colandr     A file (character) that provides titles to match; designed to be output of Colandr
 #' @param cond        Condition (logical) that defines sorting of output from Colandr file
 #'
@@ -15,7 +15,7 @@
 #' @export
 #' @examples \dontrun{ article_pdf_download(infilepath = "/data/isi_searches", outfilepath = "data")}
 
-article_pdf_download <- function(infilepath, bib_format, outfilepath = infilepath, colandr=NULL, cond="included"){
+article_pdf_download <- function(infilepath, outfilepath = infilepath, bib_format = "soc_bib", colandr=NULL, cond="included"){
   # ===============================
   # CONSTANTS
   # ===============================
@@ -67,7 +67,7 @@ article_pdf_download <- function(infilepath, bib_format, outfilepath = infilepat
 
 
   # Create tibble that reports information to the user keeping all the original entries
-  report <- my_df
+  report <- my_df   # TO DO: Improve variable handling
 
   # Add column to data frame describing if DOI is NA
   report$DOI_exists <- !(is.na(report$DOI))
