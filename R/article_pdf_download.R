@@ -6,6 +6,7 @@
 #' @param bib_format  (character) format used by the bibtex file
 #' @param colandr     A file (character) that provides titles to match; designed to be output of Colandr
 #' @param cond        Condition (logical) that defines sorting of output from Colandr file
+#' @param overwrite   Condition (logical) that determines whether to overwrite contents of outfilepath, if it's nonempty
 #'
 #' @return data frame containing dowload information
 #'
@@ -15,12 +16,16 @@
 #' @export
 #' @examples \dontrun{ article_pdf_download(infilepath = "/data/isi_searches", outfilepath = "data")}
 
-article_pdf_download <- function(infilepath, outfilepath = infilepath, bib_format = "soc_bib", colandr=NULL, cond="included"){
+article_pdf_download <- function(infilepath, outfilepath = infilepath, bib_format = "soc_bib", colandr=NULL, cond="included", overwrite = FALSE){
   # ===============================
   # CONSTANTS
   # ===============================
-  # Create the main output directory
-  dir.create(outfilepath, showWarnings = FALSE)
+  # give error if overwrite is false AND the directory is nonempty
+  if(!overwrite & length(list.files(outfilepath, all.files = TRUE)) != 0){
+    stop("outfilepath not empty! Set overwrite = TRUE or change outfilepath")
+  } else{
+    dir.create(outfilepath, showWarnings = FALSE)
+    }
 
   # PDF subdirectory
   pdf_output_dir <- file.path(outfilepath, 'pdfs')
