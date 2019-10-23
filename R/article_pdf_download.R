@@ -54,7 +54,8 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, bib_forma
   # Select attributes of interest and clean the author field
   my_df <- tibble::tibble(name = paste(gsub(";.*$", "", matched$AU),matched$PY,matched$SO),
                           titles = matched$TI,
-                          DOI = matched$DI)
+                          DOI = matched$DI,
+                          py = matched$PY)
 
   # Print percent of papers with DOI
   perc <- suppressWarnings((nrow(dplyr::filter(my_df, !is.na(DOI)))/nrow(my_df)))
@@ -88,7 +89,7 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, bib_forma
   rm(perc)
 
   # Add to report document which reference didn't have URL
-  report <- dplyr::left_join(report, my_df, by = c("name", "DOI", "titles"))
+  report <- dplyr::left_join(report, my_df, by = c("name", "DOI", "titles", "py"))
   report$length <- lapply(report$links, length)
   report$URL_found <- ifelse((report$length > 0), TRUE, FALSE)
   report <- dplyr::select(report, name, titles, DOI, DOI_exists, URL_found)
@@ -97,6 +98,21 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, bib_forma
 
   # Remove references with no URL
   my_df <- my_df[lapply(my_df$links, length) > 0, ]
+
+  # try to add the first author and doi to put as file names.
+  my_df <- my_df %>%
+    mutate(first_author = name %>%
+             str_replace_all("\\.\\s", "\\.") %>%
+             str_replace_all("[A-Z]\\s[A-Z]", "") %>%
+             str_replace_all('"', "") %>%
+             str_replace_all("and", "") %>%
+             word(1, 2) %>%
+             str_trim() %>%
+             str_replace("\\s", ""),
+           # replace backslashes with 2 periods in a row
+           doi_title = DOI %>% str_replace_all("/", "\\.\\.")
+
+    )
 
   # Elsevier links require a separate download process, so we distinguish them here
   # my_df <- elsevier_tagger(my_df, "links") not neede anymore
@@ -134,11 +150,16 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, bib_forma
              finally = message(sprintf("\nThe reference %s has been processed \n", my_df$name[[i]]))
              )
     # keep track of the PDF names
-    if (length(crminer::crm_cache$list()) > nb_pdfs) {
+    if (length(crminer::crm_cache$list()) >= nb_pdfs) {
       # print(crminer::crm_cache$list())
       nb_pdfs <- length(crminer::crm_cache$list())
       last_paper <- setdiff(crminer::crm_cache$list(), old_cache)
-      my_df$downloaded_file[i] <- last_paper
+
+      # rename file
+      file_name <- file.path(dirname(last_paper), paste0(test[i,]$first_author, test[i,]$py, "_", test[i,]$doi_title, ".pdf"))
+      file.rename(from = last_paper, to = file_name)
+
+      my_df$downloaded_file[i] <- file_name
     } else {
       my_df$downloaded_file[i] <- NA
     }
