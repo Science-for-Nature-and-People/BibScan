@@ -29,7 +29,7 @@ bibfile_reader <- function(isi_dir, formatting){
     purrr::map_dfr(as.data.frame)
 
   # read the lookup table to match fields
-  lut <- readr::read_csv("inst/LUT_non_isi.csv")
+  lut <- readr::read_csv(system.file("LUT_non_isi.csv", package = "BibScan"))
   # Check if the necessary fields are here
   stopifnot(sum(lut[[formatting]] %in% names(biblio_data)) == 5)
 
