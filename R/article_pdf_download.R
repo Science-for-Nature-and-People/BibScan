@@ -6,7 +6,7 @@
 #' @param bib_format  (character) format used by the bibtex file
 #' @param colandr     A file (character) that provides titles to match; designed to be output of Colandr
 #' @param cond        Condition (logical) that defines sorting of output from Colandr file
-#' @param overwrite   Condition (logical) that determines whether to overwrite contents of outfilepath, if it's nonempty
+#' @param overwrite   Condition (logical) that determines whether to overwrite contents of outfilepath, if it's nonempty (default FALSE)
 #'
 #' @return data frame containing dowload information
 #'
@@ -161,7 +161,7 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, bib_forma
       last_paper <- setdiff(crminer::crm_cache$list(), old_cache)
 
       # rename file
-      file_name <- file.path(dirname(last_paper), paste0(test[i,]$first_author, test[i,]$py, "_", test[i,]$doi_title, ".pdf"))
+      file_name <- file.path(dirname(last_paper), paste0(my_df[i,]$first_author, my_df[i,]$py, "_", my_df[i,]$doi_title, ".pdf"))
       file.rename(from = last_paper, to = file_name)
 
       my_df$downloaded_file[i] <- file_name
@@ -190,6 +190,7 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, bib_forma
 
   report$downloaded <- as.logical(NA)
   report$is_pdf <- as.logical(NA)
+  report$is_empty <- as.logical(NA)
 
   for (i in 1:nrow(report)) {
     print(report$downloaded_file[i])
@@ -198,35 +199,41 @@ article_pdf_download <- function(infilepath, outfilepath = infilepath, bib_forma
       report$downloaded[i] <- TRUE
       # test if the file is binary (assumed to be PDF) or not (html or other)
       report$is_pdf[i] <- suppressWarnings(is_binary(report$downloaded_file[i]))
+      # test if we just downloaded an empty file. a little more informative than is_pdf
+      report$is_empty[i] <- file.size(report$downloaded_file[i]) == 0
     } else {
       report$downloaded[i] <- FALSE
       report$is_pdf[i] <- FALSE
+      report$is_empty[i] <- FALSE
     }
   }
 
 
   # Extract some statistics
   download_success <- sum(report$downloaded, na.rm = TRUE) # out of 5759 acquired links, 4604 produced downloaded files
-  unique_files <- length(unique(report$downloaded_file[report$downloaded])) # out of 4604 downloaded files, 4539 are unique
-  unique_pdfs <- length(unique(report$downloaded_file[report$downloaded & report$is_pdf])) # out of 4539 unique downloaded files, 4057 are binary files (PDFs)
+  unique_files <- length(unique(report$downloaded_file[report$downloaded & !report$is_empty])) # out of 4604 downloaded files, 4539 are unique and nonempty
+  unique_pdfs <- length(unique(report$downloaded_file[report$downloaded & report$is_pdf & !report$is_empty])) # out of 4539 unique downloaded files, 4057 are nonempty binary files (PDFs)
   message(sprintf("Over the %i acquired links, %i PDFs were succesfully downloaded", nrow(report), unique_pdfs))
 
   # Extract the files info that were not PDFs
   non_pdf_paths <- unique(report$downloaded_file[report$downloaded & !report$is_pdf]) # For investigative purposes, here are the paths for the non-PDF files (482) that were downloaded
 
-  if(length(non_pdf_paths > 0)){
+
+
+
+  # Make non-pdf links HTML to make them clickable
+  if(length(non_pdf_paths) > 0){
     ## Move the non-pdf files to a specific directory
     # Create the destination list
     html_paths <- file.path(
       nopdf_output_dir,
       paste0(basename(tools::file_path_sans_ext(non_pdf_paths)),
-             ".html")
+             ".html"
+             )
     )
     # Move the files
     file.rename(from = non_pdf_paths, to = html_paths)
   }
-
-  # TO DOs: Add file renaming
 
   # output information regarding the download processs to csv
   summary_path <- file.path(outfilepath, 'summary.csv')
